@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "cy:run": "cypress run --reporter mochawesome --reporter-options reportDir=mochawesome-report,overwrite=false,html=true, json=false" 
   },
   "keywords": [],
   "author": "",
@@ -12,5 +13,9 @@
   "description": "",
   "dependencies": {
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "cypress": "^14.5.1",
+    "mochawesome": "^7.1.3"
   }
 }
