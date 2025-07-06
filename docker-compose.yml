@@ -32,6 +32,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.cypress
+    image: my-cypress-runner:latest
     depends_on:
       - app
     entrypoint: ["npm", "run", "cy:run"]
