@@ -1,0 +1,12 @@
+# Ignorar dependencias locales
+node_modules
+
+# Ignorar reportes de pruebas
+mochawesome-report
+
+# Ignorar archivos de Docker y Git
+.dockerignore
+Dockerfile
+Dockerfile.cypress
+docker-compose.yml
+.git
