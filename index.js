@@ -26,7 +26,7 @@ app.get('/dashboard', (req, res) => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Dashboard Moderno</title>
-        
+
         <style>
             body {
                 background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
@@ -69,7 +69,7 @@ app.get('/dashboard', (req, res) => {
             <div class="dashboard-icon">👋</div>
             <h2 class="dashboard-title">¡Bienvenido al Dashboard!</h2>
             <p class="mb-4">Has iniciado sesión correctamente.<br>Disfruta de tu experiencia.</p>
-            <a href="/Login" class="btn btn-outline-primary btn-logout w-100">Cerrar sesión</a>
+            <a href="/login" class="btn btn-outline-primary btn-logout w-100">Cerrar sesión</a>
         </div>
     </body>
     </html>
