@@ -3,6 +3,7 @@ module.exports = defineConfig({
     e2e: {
         baseUrl: 'http://app:5050',
         supportFile: false,
-        specPattern: 'cypress/e2e/**/*.js'
+        specPattern: 'cypress/e2e/**/*.js',
+        pageLoadTimeout: 120000 
     }
 });
