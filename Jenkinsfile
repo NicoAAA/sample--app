@@ -19,7 +19,7 @@ pipeline {
                     // Usamos un bloque 'dir' para asegurarnos de que se ejecute en el contexto del workspace
                     dir('.') {
                         // El 'withRun' inicia un contenedor (nuestra app) y nos da una variable para controlarlo
-                        docker.image('nicoaaa/sample-app:latest').withRun('-d --name sample_app --network=sample-app_jenkinsnet', 'app') {
+                        docker.image('nicoaaa/sample-app:latest').withRun('-d --name sample_app --network=sample-app_jenkinsnet') {
                             
                             // Esperamos un momento para que el servidor de la app inicie completamente
                             sleep 10 
