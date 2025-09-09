@@ -1,50 +1,30 @@
 version: '3.8'
 
-services: 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: sample-app
-    ports:
-      - '5050:5050'
-    volumes:
-      - .:/app
-    networks:
-      - jenkinsnet
-  
+services:
   jenkins:
-    build:
-      context: .
-      dockerfile: Dockerfile.jenkins
+    # Usamos la imagen oficial y recomendada en lugar de construir una propia.
+    # Esto es más simple, rápido y seguro.
+    image: jenkins/jenkins:lts-jdk11
     container_name: jenkins_server
     ports:
       - '8080:8080'
+      # Puerto para la comunicación con agentes de Jenkins. Es una buena práctica incluirlo.
+      - '50000:50000'
     volumes:
+      # Volumen para que los datos de Jenkins persistan (jobs, plugins, etc.).
       - jenkins_data:/var/jenkins_home
+      # Esencial para que el contenedor de Jenkins pueda ejecutar comandos Docker en el host.
       - /var/run/docker.sock:/var/run/docker.sock
-      - .:/home
+    # Necesario para que Jenkins tenga permisos para usar el socket de Docker.
     user: root
     networks:
       - jenkinsnet
 
-  cypress:
-    build:
-      context: .
-      dockerfile: Dockerfile.cypress
-    image: my-cypress-runner:latest
-    depends_on:
-      - app
-    entrypoint: ["npm", "run", "cy:run"]
-    volumes:
-      - .:/e2e
-    networks:
-      - jenkinsnet
-  
+# Definición del volumen nombrado para la persistencia de datos.
 volumes:
   jenkins_data:
 
+# Definición de la red que compartirán los contenedores que Jenkins cree.
 networks:
   jenkinsnet:
     driver: bridge
-    
