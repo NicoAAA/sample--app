@@ -1,30 +1,23 @@
-version: '3.8'
-
 services:
   jenkins:
-    # Usamos la imagen oficial y recomendada en lugar de construir una propia.
-    # Esto es más simple, rápido y seguro.
-    image: jenkins/jenkins:lts-jdk11
+    # Cambiamos 'image' por 'build' para usar nuestro Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
     container_name: jenkins_server
     ports:
       - '8080:8080'
-      # Puerto para la comunicación con agentes de Jenkins. Es una buena práctica incluirlo.
       - '50000:50000'
     volumes:
-      # Volumen para que los datos de Jenkins persistan (jobs, plugins, etc.).
       - jenkins_data:/var/jenkins_home
-      # Esencial para que el contenedor de Jenkins pueda ejecutar comandos Docker en el host.
       - /var/run/docker.sock:/var/run/docker.sock
-    # Necesario para que Jenkins tenga permisos para usar el socket de Docker.
-    user: root
+    user: root # Mantenemos user:root para que tenga permisos sobre el socket
     networks:
       - jenkinsnet
 
-# Definición del volumen nombrado para la persistencia de datos.
 volumes:
   jenkins_data:
 
-# Definición de la red que compartirán los contenedores que Jenkins cree.
 networks:
   jenkinsnet:
     driver: bridge

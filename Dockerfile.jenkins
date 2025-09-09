@@ -1,23 +1,21 @@
-# Usa la imagen oficial de Jenkins como base
-FROM jenkins/jenkins:lts-jdk17
+# Usamos la imagen oficial de Jenkins como base
+FROM jenkins/jenkins:lts-jdk11
 
-# Cambia al usuario root temporalmente para instalar paquetes
+# Cambiamos al usuario root para poder instalar paquetes
 USER root
 
-# Instala el cliente de Docker y sus dependencias
-# Adaptado para sistemas basados en Debian/Ubuntu (la imagen de Jenkins usa Debian)
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    apt-transport-https \
-    ca-certificates \
-    gnupg \
-    lsb-release && \
-    mkdir -p /etc/apt/keyrings && \
-    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-    apt-get update && \
-    apt-get install -y docker-ce-cli && \
-    rm -rf /var/lib/apt/lists/*
+# Instalamos las herramientas de cliente de Docker
+RUN apt-get update && apt-get install -y lsb-release
+RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
+  https://download.docker.com/linux/debian/gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) \
+  signed-by=/usr/share/keyrings/docker-archive-keyring.asc] \
+  https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+RUN apt-get update && apt-get install -y docker-ce-cli
 
-# Cambia de nuevo al usuario por defecto de Jenkins
+# Opcional: Otorgamos permisos al usuario jenkins para usar Docker
+RUN groupadd docker && usermod -aG docker jenkins
+
+# Volvemos al usuario jenkins
 USER jenkins
